@@ -53,7 +53,7 @@ public class DrunkCharacterControllerCopied : MonoBehaviour
             input.x = Input.GetAxis("Horizontal");
             input.y = Input.GetAxis("Vertical");
         }
-        Debug.Log(input);
+       // Debug.Log(input);
 
 		// set speed to both vertical and horizontal inputs
         if (useCharacterForward)
