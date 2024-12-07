@@ -5,22 +5,17 @@ using Action = Unity.Behavior.Action;
 using Unity.Properties;
 
 [Serializable, GeneratePropertyBag]
-[NodeDescription(name: "MoveTowardPlayer", story: "Agent Moves Towrads Player", category: "Action", id: "a6f52fee252e9876944b96ab9c598c16")]
-public partial class MoveTowardPlayerAction : Action
+[NodeDescription(name: "Attack Player", story: "Attack Player", category: "Action", id: "2e5d50226e9c90d2764071d45d3c1eb2")]
+public partial class AttackPlayerAction : Action
 {
     //move all these data to blackboard pattern ASAP
-
     //using hash for animator parameters instead of string, string operations are expensive and unrealiable
-    private int move = Animator.StringToHash("run");
-
-    [SerializeField] private float stopDistance = 1.5f; // Distance at which the enemy stops moving
-
-    [SerializeField]
-    private float moveSpeed = 2f; // Speed of movement
+    private int attack = Animator.StringToHash("DoubleLegTakeDownBool");
 
     private Transform enemyTransform;
     private Transform playerTransform;
     private Animator animator;
+
 
     protected override Status OnStart()
     {
@@ -39,38 +34,35 @@ public partial class MoveTowardPlayerAction : Action
             Debug.LogError("Player or Animator component not found!");
             return Status.Failure;
         }
+        // Calculate direction to player
+        Vector3 directionToPlayer = (playerTransform.position - enemyTransform.position); // do not normalize this vector, normalization doesn't work for some reason, it just return indentity vector in original direction
+
+        // Rotate towards player
+        enemyTransform.rotation = Quaternion.LookRotation(directionToPlayer);
         // Set the IsMoving bool to true when starting to move
-        animator.SetBool(move, true);
+        animator.SetBool(attack, true);
+        Debug.Log("Attack Started");
 
         return Status.Running;
     }
 
     protected override Status OnUpdate()
     {
+
         // If player is not found, fail the action
         if (playerTransform == null)
             return Status.Failure;
 
-        // Calculate distance to player
-        float distanceToPlayer = Vector3.Distance(enemyTransform.position, playerTransform.position);
-
-        // Check if we're close enough to stop
-        if (distanceToPlayer <= stopDistance)
-        {
-            
-            // Set the IsMoving bool to true when starting to move
-            animator.SetBool(move, true);
-            return Status.Success;
-        }
-
-        // Calculate direction to player
-        Vector3 directionToPlayer = (playerTransform.position - enemyTransform.position); // do not normalize this vector, normalization doesn't work for some reason, it just return indentity vector in original direction
-
-        // Rotate towards player
-        enemyTransform.rotation = Quaternion.LookRotation(directionToPlayer);
-
         
 
+        // Check if we're close enough to stop
+        if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime>0.9 && animator.GetCurrentAnimatorStateInfo(0).IsName("DoubleLegTakeDown"))
+            {
+
+            // Set the IsMoving bool to true when starting to move
+            animator.SetBool(attack, false);
+            return Status.Success;
+        }
         return Status.Running;
     }
 
@@ -79,7 +71,7 @@ public partial class MoveTowardPlayerAction : Action
         // Reset animation speed when action ends
         if (animator != null)
         {
-            animator.SetBool(move, false);
+            animator.SetBool(attack, false);
 
         }
     }
