@@ -62,7 +62,7 @@ public partial class MoveTowardPlayerAction : Action
         }
 
         // Calculate direction to player
-        Vector3 directionToPlayer = (playerTransform.position - enemyTransform.position);
+        Vector3 directionToPlayer = (playerTransform.position - enemyTransform.position); // do not normalize this vector, normalization doesn't work for some reason, it just return indentity vector in original direction
 
         // Rotate towards player
         enemyTransform.rotation = Quaternion.LookRotation(directionToPlayer);
