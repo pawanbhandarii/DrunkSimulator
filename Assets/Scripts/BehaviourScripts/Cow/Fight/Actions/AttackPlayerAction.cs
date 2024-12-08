@@ -40,8 +40,13 @@ public partial class AttackPlayerAction : Action
         // Rotate towards player
         enemyTransform.rotation = Quaternion.LookRotation(directionToPlayer);
         // Set the IsMoving bool to true when starting to move
+        EventBus<EnemyAttack>.Raise(new EnemyAttack
+        {
+            animName = "DoubleLegTakeDown",
+            damage = 5
+        });
         animator.SetBool(attack, true);
-        Debug.Log("Attack Started");
+       // Debug.Log("Attack Started");
 
         return Status.Running;
     }

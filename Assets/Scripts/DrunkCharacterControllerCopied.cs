@@ -6,6 +6,7 @@ using UnityEngine;
 [AddComponentMenu("")] // Don't display in add component menu
 public class DrunkCharacterControllerCopied : MonoBehaviour
 {
+
     RaycastHit EvaGiriJumpHit;
     [SerializeField] private GameObject EvaGiriJumpRaycastLocation;
     public bool useCharacterForward = false;
@@ -32,8 +33,26 @@ public class DrunkCharacterControllerCopied : MonoBehaviour
     private Camera mainCamera;
     private float velocity;
 
-	// Use this for initialization
-	void Start ()
+    #region Event Bindings
+    EventBinding<EnemyAttack> attackEventBinding;
+    #endregion
+    private void OnEnable()
+    {
+        attackEventBinding = new EventBinding<EnemyAttack>(handleEnemyAttackEvent);
+        EventBus<EnemyAttack>.Register(attackEventBinding);
+    }
+    private void OnDisable()
+    {
+        
+    }
+    #region Functions To Handle Events
+    private void handleEnemyAttackEvent(EnemyAttack enemyAttack)
+    {
+        Debug.Log($"attack Event Received animation to play: { enemyAttack.animName}, Damage:{enemyAttack.damage}");
+    }
+    #endregion
+    // Use this for initialization
+    void Start ()
 	{
 	    anim = GetComponent<Animator>();
 	    mainCamera = Camera.main;
