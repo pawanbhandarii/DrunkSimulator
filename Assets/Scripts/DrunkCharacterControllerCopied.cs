@@ -48,6 +48,7 @@ public class DrunkCharacterControllerCopied : MonoBehaviour
     #region Functions To Handle Events
     private void handleEnemyAttackEvent(EnemyAttack enemyAttack)
     {
+        anim.SetBool("DoubleTakeDown-VictimBool", true);
         Debug.Log($"attack Event Received animation to play: { enemyAttack.animName}, Damage:{enemyAttack.damage}");
     }
     #endregion
@@ -200,6 +201,11 @@ public class DrunkCharacterControllerCopied : MonoBehaviour
         {
             anim.SetBool("drinkDrink", false);
             anim.SetBool("isDrunk", true);
+        }
+        if (anim.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9 && anim.GetCurrentAnimatorStateInfo(0).IsName("DoubleTakeDown-Victim"))
+        {
+            anim.SetBool("DoubleTakeDown-VictimBool", false);
+            
         }
     }
     private void PerformRaycasts()
