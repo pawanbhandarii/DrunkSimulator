@@ -6,10 +6,12 @@ public class ChangeAnimatorState : MonoBehaviour
 {
     private static readonly int Run = Animator.StringToHash("run");
 
-    public Animator animator;   
+    public Animator animator;
+    public GameObject some;
     // Start is called before the first frame update
     void Start()
     {
+        //behaviourGraph = GetComponent<Behaviour>();
         
     }
 
@@ -21,5 +23,10 @@ public class ChangeAnimatorState : MonoBehaviour
     public void ChangeAnimatorToRun()
     {
         animator.SetBool(Run,true);
+    }
+    public void enableGraph()
+    {
+        behaviourGraph.enabled = true;
+
     }
 }
