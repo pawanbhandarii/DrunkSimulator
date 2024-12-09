@@ -1,5 +1,6 @@
 ﻿using Unity.VisualScripting;
 using UnityEngine;
+using MEC;
 
 
 
@@ -59,6 +60,15 @@ public class DrunkCharacterControllerCopied : MonoBehaviour
         Debug.Log($"attack Event Received animation to play: { enemyAttack.animName}, Damage:{enemyAttack.damage}");
     }
     #endregion
+    
+     public void Accept( Interactables obj)
+    {
+        if (isInteracting) return;
+
+        isInteracting = true;
+        animationSystem.PlayOneShot(obj.GetAnimationClip());
+        //Timing.RunCoroutine(Tur) need to add a coroutine to turn towards the interactable object
+    }
     // Use this for initialization
     void Start ()
 	{
@@ -261,6 +271,10 @@ public class DrunkCharacterControllerCopied : MonoBehaviour
             //takeInput = false;
 
         }*/
+    }
+    private void OnDestroy()
+    {
+        animationSystem.Destroy();
     }
 }
 
