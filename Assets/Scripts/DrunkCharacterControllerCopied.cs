@@ -25,13 +25,20 @@ public class DrunkCharacterControllerCopied : MonoBehaviour
     private bool isRunningJumping = false;
     private bool takeInput = true;//this is to check whether to take input from user or not, game does not take input when character is in ragdoll or recovery phase
     public bool canPerformEvaGiriJump;
-
-        private Animator anim;
     private Vector3 targetDirection;
     private Vector2 input;
     private Quaternion freeRotation;
     private Camera mainCamera;
     private float velocity;
+
+    #region Animation Related References
+    [SerializeField] AnimationClip defaultAnimationClip;
+    [SerializeField] AnimationClip idleAnimationClip;
+    [SerializeField] AnimationClip walkAnimationClip;
+    private Animator anim;
+    private AnimationSystem animationSystem;
+    #endregion
+    
 
     #region Event Bindings
     EventBinding<EnemyAttack> attackEventBinding;
@@ -43,7 +50,7 @@ public class DrunkCharacterControllerCopied : MonoBehaviour
     }
     private void OnDisable()
     {
-        
+        EventBus<EnemyAttack>.Deregister(attackEventBinding);
     }
     #region Functions To Handle Events
     private void handleEnemyAttackEvent(EnemyAttack enemyAttack)
@@ -57,6 +64,7 @@ public class DrunkCharacterControllerCopied : MonoBehaviour
 	{
 	    anim = GetComponent<Animator>();
 	    mainCamera = Camera.main;
+        animationSystem = new AnimationSystem(anim, idleAnimationClip, walkAnimationClip);
 	}
     private void Update()
     {
