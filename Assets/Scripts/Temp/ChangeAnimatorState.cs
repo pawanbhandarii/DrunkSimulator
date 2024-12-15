@@ -26,7 +26,7 @@ public class ChangeAnimatorState : MonoBehaviour
     }
     public void enableGraph()
     {
-        behaviourGraph.enabled = true;
+        //behaviourGraph.enabled = true;
 
     }
 }
