@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Behavior;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Playables;
@@ -10,6 +11,7 @@ public class PlayTimeline : MonoBehaviour
 {
     [SerializeField] PlayableDirector playableDirector;
     [SerializeField] TimelineAsset timelineAsset;
+    [SerializeField] BehaviorGraphAgent agent;
     // Start is called before the first frame update
     void Start()
     {

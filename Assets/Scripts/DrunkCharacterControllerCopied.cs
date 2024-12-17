@@ -2,7 +2,7 @@
 using UnityEngine;
 using MEC;
 
-
+//need to move the input system from old input system to new input system
 
 [AddComponentMenu("")] // Don't display in add component menu
 public class DrunkCharacterControllerCopied : MonoBehaviour
@@ -66,6 +66,7 @@ public class DrunkCharacterControllerCopied : MonoBehaviour
         if (isInteracting) return;
 
         isInteracting = true;
+        //add a function to move the player to optimal position first
         animationSystem.PlayOneShot(obj.GetAnimationClip());
         //Timing.RunCoroutine(Tur) need to add a coroutine to turn towards the interactable object
     }
@@ -239,6 +240,10 @@ public class DrunkCharacterControllerCopied : MonoBehaviour
             canPerformEvaGiriJump = false;
         }*/
 
+    }
+    private void movePlayerToOptimalPositionForInteractableOneShotAnimation()
+    {
+        //
     }
     
     private void OnTriggerEnter(Collider collision)

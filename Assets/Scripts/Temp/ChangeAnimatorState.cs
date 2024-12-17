@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Behavior;
 using UnityEngine;
 
 public class ChangeAnimatorState : MonoBehaviour
@@ -7,7 +8,7 @@ public class ChangeAnimatorState : MonoBehaviour
     private static readonly int Run = Animator.StringToHash("run");
 
     public Animator animator;
-    public GameObject some;
+    public BehaviorGraphAgent agent;
     // Start is called before the first frame update
     void Start()
     {
@@ -26,7 +27,11 @@ public class ChangeAnimatorState : MonoBehaviour
     }
     public void enableGraph()
     {
-        behaviourGraph.enabled = true;
+       // behaviourGraph.enabled = true;
 
+    }
+    public void enableAgent()
+    {
+        agent.enabled = true;
     }
 }

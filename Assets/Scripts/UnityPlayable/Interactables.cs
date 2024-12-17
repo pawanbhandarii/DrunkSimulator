@@ -4,6 +4,7 @@ public class Interactables : MonoBehaviour
 {
     [SerializeField] AnimationClip animationClip;
     public AnimationClip GetAnimationClip() => animationClip;
+    public GameObject optimalInteractionPoint; // the point from where the interaction animation plays best
 
     DrunkCharacterControllerCopied player; //reference to player controller script
     private void OnTriggerEnter(Collider other)
