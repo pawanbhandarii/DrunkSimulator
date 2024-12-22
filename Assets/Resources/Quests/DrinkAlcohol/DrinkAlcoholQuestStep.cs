@@ -23,14 +23,30 @@ namespace DrunkSimulator.Quest
 
         private void OnAlcoholDrank(DrankAlcoholEvent eventData)
         {
-            _amountOfAlcoholDrunk += eventData.alcholAmount;
+            if (_amountOfAlcoholDrunk < amountOfAlcoholToDrink)
+            {
+                _amountOfAlcoholDrunk += eventData.alcholAmount;
+                UpdateState();
+            }
 
             if (_amountOfAlcoholDrunk >= amountOfAlcoholToDrink)
             {
                 FinishQuestStep();
             }
         }
-        
+
+        private void UpdateState()
+        {
+            string state = _amountOfAlcoholDrunk.ToString();
+            ChangeState(state);
+        }
+
+        protected override void SetQuestStepState(string newState)
+        {
+            //TODO: try catch block
+            this._amountOfAlcoholDrunk = System.Int32.Parse(newState);
+            UpdateState();
+        }
     }
 }
 

@@ -8,6 +8,10 @@ namespace DrunkSimulator.Quest
     {
         [Header("Quest")] [SerializeField] private SO_QuestSystemInfo questInfoForPoint;
 
+        [Header("Config")] 
+        [SerializeField] private bool _startPoint = true;
+        [SerializeField] private bool _endPoint = true;
+
         private string _questID;
         
         private bool _playerIsNear = false;
@@ -16,9 +20,12 @@ namespace DrunkSimulator.Quest
 
         private EventBinding<OnQuestStateChangeEvent> OnQuestStateChange;
         
+        private QuestIcon questIcon;
+        
         private void Awake()
         {
             _questID = questInfoForPoint.ID;
+            questIcon = GetComponentInChildren<QuestIcon>();
         }
 
         private void OnEnable()
@@ -38,18 +45,20 @@ namespace DrunkSimulator.Quest
 
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                EventBus<OnStartQuestEvent>.Raise(new OnStartQuestEvent()
+                if (currentQuestState.Equals(EQuestState.CAN_START) && _startPoint)
                 {
-                    questID = _questID
-                });
-                EventBus<OnAdvanceQuestEvent>.Raise(new OnAdvanceQuestEvent()
+                    EventBus<OnStartQuestEvent>.Raise(new OnStartQuestEvent()
+                    {
+                        questID = questInfoForPoint.ID,
+                    });
+                }
+                else if (currentQuestState.Equals(EQuestState.CAN_FINISH) && _endPoint)
                 {
-                    questID = _questID
-                });
-                EventBus<OnFinishQuestEvent>.Raise(new OnFinishQuestEvent()
-                {
-                    questID = _questID
-                });
+                    EventBus<OnFinishQuestEvent>.Raise(new OnFinishQuestEvent()
+                    {
+                        questID = questInfoForPoint.ID,
+                    });
+                }
             }
         }
         
@@ -74,7 +83,7 @@ namespace DrunkSimulator.Quest
             if (e.quest.Info.ID.Equals(_questID))
             {
                 currentQuestState = e.quest.State;
-                Debug.Log($"Quest with ID: {_questID} Updated to State: {currentQuestState}");
+                questIcon.SetState(currentQuestState, _startPoint, _endPoint);
             }
         }
     }

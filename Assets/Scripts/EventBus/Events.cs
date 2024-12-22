@@ -17,6 +17,15 @@ public struct DrankAlcoholEvent : IEvent
     public float alcholAmount;
 }
 
+#region Requirement Events
+
+public struct OnAlcholLevelChangeEvent : IEvent
+{
+    public int level;
+}
+
+#endregion
+
 #region Quest Events
 
 public struct OnStartQuestEvent : IEvent
@@ -37,6 +46,13 @@ public struct OnFinishQuestEvent : IEvent
 public struct OnQuestStateChangeEvent : IEvent
 {
     public DrunkSimulator.Quest.Quest quest;
+}
+
+public struct OnQuestStepStateChangeEvent : IEvent
+{
+    public string questID;
+    public int stepIndex;
+    public DrunkSimulator.Quest.QuestStepState questStepState;
 }
 
 #endregion
